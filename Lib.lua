@@ -15,11 +15,11 @@ local utility = {}
 local objects = {}
 local themes = {
 	Background = Color3.fromRGB(24, 24, 24), 
-	Glow = Color3.fromRGB(0, 0, 0), 
-	Accent = Color3.fromRGB(10, 10, 10), 
-	LightContrast = Color3.fromRGB(20, 20, 20), 
-	DarkContrast = Color3.fromRGB(14, 14, 14),  
-	TextColor = Color3.fromRGB(255, 255, 255)
+	Glow = Color3.fromRGB(0, 255, 255), 
+	Accent = Color3.fromRGB(0, 0, 0), 
+	LightContrast = Color3.fromRGB(30, 30, 30), 
+	DarkContrast = Color3.fromRGB(0, 0, 0),  
+	TextColor = Color3.fromRGB(0, 255, 255)
 }
 
 do
@@ -220,7 +220,7 @@ do
 				Name = "Main",
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0.25, 0, 0.052435593, 0),
-				Size = UDim2.new(0, 511, 0, 428),
+				Size = UDim2.new(0, 550, 0, 550),
 				Image = "rbxassetid://4641149554",
 				ImageColor3 = themes.Background,
 				ScaleType = Enum.ScaleType.Slice,
@@ -229,9 +229,9 @@ do
 				utility:Create("ImageLabel", {
 					Name = "Glow",
 					BackgroundTransparency = 1,
-					Position = UDim2.new(0, -15, 0, -15),
-					Size = UDim2.new(1, 30, 1, 30),
-					ZIndex = 0,
+					Position = UDim2.new(0, -15, -0.04, 15),
+					Size = UDim2.new(0, 570, 0, 570),
+					ZIndex = 5,
 					Image = "rbxassetid://5028857084",
 					ImageColor3 = themes.Glow,
 					ScaleType = Enum.ScaleType.Slice,
@@ -242,7 +242,7 @@ do
 					BackgroundTransparency = 1,
 					ClipsDescendants = true,
 					Position = UDim2.new(0, 0, 0, 38),
-					Size = UDim2.new(0, 126, 1, -38),
+					Size = UDim2.new(0, 130, 1, -40),
 					ZIndex = 3,
 					Image = "rbxassetid://5012534273",
 					ImageColor3 = themes.DarkContrast,
@@ -253,9 +253,9 @@ do
 						Name = "Pages_Container",
 						Active = true,
 						BackgroundTransparency = 1,
-						Position = UDim2.new(0, 0, 0, 10),
-						Size = UDim2.new(1, 0, 1, -20),
-						CanvasSize = UDim2.new(0, 0, 0, 314),
+						Position = UDim2.new(0, 0, 0, 15),
+						Size = UDim2.new(1.4, 0, 5, -30),
+						CanvasSize = UDim2.new(0, 0, 0, 320),
 						ScrollBarThickness = 0
 					}, {
 						utility:Create("UIListLayout", {
@@ -471,12 +471,11 @@ do
 		
 		if self.position then
 			utility:Tween(container, {
-				Size = UDim2.new(0, 511, 0, 428),
 				Position = self.position
-			}, 0.2)
+			}, 0.5)
 			wait(0.2)
 			
-			utility:Tween(topbar, {Size = UDim2.new(1, 0, 0, 38)}, 0.2)
+			utility:Tween(topbar, {Size = UDim2.new(1, 0, 0, 38)}, 0.5)
 			wait(0.2)
 			
 			container.ClipsDescendants = false
@@ -485,13 +484,11 @@ do
 			self.position = container.Position
 			container.ClipsDescendants = true
 			
-			utility:Tween(topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
+			utility:Tween(topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.5)
 			wait(0.2)
-			
-			utility:Tween(container, {
-				Size = UDim2.new(0, 511, 0, 0),
-				Position = self.position + UDim2.new(0, 0, 0, 428)
-			}, 0.2)
+            utility:Tween(container, {
+				Position = self.position + UDim2.new(0, 0, 0, 1000)
+			}, 1)
 			wait(0.2)
 		end
 		
@@ -532,7 +529,7 @@ do
 				Name = "Glow",
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0, -15, 0, -15),
-				Size = UDim2.new(1, 30, 1, 30),
+				Size = UDim2.new(1, 30, 1, 20),
 				ZIndex = 2,
 				Image = "rbxassetid://5028857084",
 				ImageColor3 = themes.Glow,
@@ -687,36 +684,22 @@ do
 		})
 		
 		table.insert(self.modules, button)
-		--self:Resize()
 		
-		local text = button.Title
-		local debounce
-		
+		local text = button.Title		
 		button.MouseButton1Click:Connect(function()
-			
-			if debounce then
-				return
-			end
-			
-			-- animation
 			utility:Pop(button, 10)
-			
-			debounce = true
 			text.TextSize = 0
 			utility:Tween(button.Title, {TextSize = 14}, 0.2)
-			
 			wait(0.2)
 			utility:Tween(button.Title, {TextSize = 12}, 0.2)
 			
 			if callback then
-				callback(function(...)
-					self:updateButton(button, ...)
+				callback(function(a)
+                    print(a)
+					self:updateButton(button, a)
 				end)
 			end
-			
-			debounce = false
 		end)
-		
 		return button
 	end
 	
@@ -774,7 +757,6 @@ do
 		})
 		
 		table.insert(self.modules, toggle)
-		--self:Resize()
 		
 		local active = default
 		self:updateToggle(toggle, nil, active)
@@ -2167,6 +2149,4 @@ do
 		end
 	end
 end
-
-print("Shinichi Was here")
 return library
