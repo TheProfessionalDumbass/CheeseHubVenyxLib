@@ -1,3 +1,15 @@
 
-print('xrpl is here ??')
-venyx:Notify("Cheese Hub Free", "Version: 1.0.0a | Nice! Your using the latest version. :) Enjoy!")  
+game.StarterGui:SetCore("SendNotification", {
+    Title = "xrpl is here ???";
+    Text = [[hi]];
+        Duration = 4;
+        Callback = NotificationBindable;
+})
+
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Cheese Hub | Free\nVersion: 1.0.0a";
+    Text = [[Nice! Your using the latest version. :) Enjoy!]];
+        Duration = 10;
+        Callback = NotificationBindable;
+})
